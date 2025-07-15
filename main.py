@@ -24,7 +24,7 @@ user = TelegramClient(StringSession(SESSION_STRING), API_ID, API_HASH)
 discwaal_reply = {}
 
 # Listen for reply from discwaal_bot
-@user.on(events.NewMessage(from_users="discwaal_bot"))
+@user.on(events.NewMessage(from_users="DiskWalaFileUploaderBot"))
 async def handle_discwaal_reply(event):
     if "http" in event.raw_text:
         discwaal_reply["link"] = event.raw_text.strip()
@@ -32,12 +32,12 @@ async def handle_discwaal_reply(event):
 # Send media to discwaal_bot and wait for stream link
 async def send_to_discwaal(file_path: str):
     discwaal_reply.clear()
-    await user.send_file("discwaal_bot", file_path)
+    await user.send_file("DiskWalaFileUploaderBot", file_path)
     for _ in range(60):
         if "link" in discwaal_reply:
             return discwaal_reply["link"]
         await asyncio.sleep(1)
-    return "\u26a0\ufe0f No response from @discwaal_bot"
+    return "\u26a0\ufe0f No response from @DiskWalaFileUploaderBot"
 
 # Get Telegram thumbnail (if available)
 async def get_thumbnail(client, message: Message):
@@ -58,7 +58,7 @@ async def handle_file(client: Client, message: Message):
     if not user.is_connected():
         await user.start()
 
-    status = await message.reply("\u23f3 Sending to @discwaal_bot...")
+    status = await message.reply("\u23f3 Sending to @DiskWalaFileUploaderBot...")
 
     try:
         file_path = await message.download()
